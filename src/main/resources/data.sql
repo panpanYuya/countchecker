@@ -1,0 +1,1 @@
+INSERT INTO constipation(user_id,created_at, updated_at) VALUES(1, "2020-01-01 00:00:00.000000", "2020-01-01 00:00:00.000000");
