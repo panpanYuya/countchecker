@@ -23,11 +23,15 @@ paths:
         tags:
             - constipation
         summary: お通じの記録
-        description: お通じ記録登録を行う
+        description: お通じの記録を行う
         operationId: post
         responses:
             200: 
-                description: "お通じ記録登録完了"
+                description: "お通じの記録完了"
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ConstipationForm'
     /constipation/edit/{constipationId}:
      get:
         tags:
@@ -42,3 +46,44 @@ paths:
         responses:
             200:
              description: 編集されたお通じの記録を更新するAPI
+
+components:
+  schemas:
+     ConstipationForm:
+        type: object
+        properties:
+            constipation_id:
+               type: integer
+               format: int64
+               description: "お通じid"
+            user_id:
+               type: integer
+               format: int64
+               description: "ユーザーid"
+            status:
+               type: integer
+               format: int64
+               description: "状態id"
+            color:
+               type: integer
+               format: int64
+               description: "色id"
+            quantity:
+               type: integer
+               format: int64
+               description: "量id"
+            smell:
+               type: integer
+               format: int64
+               description: "においid"
+            refresh_feel:
+               type: integer
+               format: int64
+               description: "スッキリ感id"
+        required:
+            - user_id
+            - status
+            - color
+            - quantity
+            - smell
+            - refresh_feel
