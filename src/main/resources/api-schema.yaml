@@ -1,0 +1,44 @@
+openapi: "3.0.0"
+info:
+    title: CountChecker
+    version: "0.0.1"
+    description: CountCheckerのAPIドキュメントです。
+tags:
+    - name: opts
+      description: 運用監視関連のAPI
+    - name: user
+      description: ユーザー関連のAPI
+    - name: constipation
+      description: お通じ関連のAPI
+paths:
+    /health:
+     get:
+        tags:
+            - opts
+        responses:
+            '200':
+             description: healthチェック用のパス
+    /constipation/post:
+     post:
+        tags:
+            - constipation
+        summary: お通じの記録
+        description: お通じ記録登録を行う
+        operationId: post
+        responses:
+            200: 
+                description: "お通じ記録登録完了"
+    /constipation/edit/{constipationId}:
+     get:
+        tags:
+            - constipation
+        responses:
+            200:
+             description: 編集するお通じの記録を取得するAPI
+    /constipation/update/{constipationId}:
+     put:
+        tags:
+            - constipation
+        responses:
+            200:
+             description: 編集されたお通じの記録を更新するAPI
