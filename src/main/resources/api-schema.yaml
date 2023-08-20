@@ -36,6 +36,14 @@ paths:
      get:
         tags:
             - constipation
+        parameters:
+            - name: constipationId
+              in: path
+              required: true
+              description: "詳細を取得するお通じのID"
+              schema:
+                    type: integer
+                    format: int64
         responses:
             200:
              description: 編集するお通じの記録を取得するAPI
@@ -43,6 +51,14 @@ paths:
      put:
         tags:
             - constipation
+        parameters:
+            - name: constipationId
+              in: path
+              required: true
+              description: "詳細を取得するお通じのID"
+              schema:
+                    type: integer
+                    format: int64
         responses:
             200:
              description: 編集されたお通じの記録を更新するAPI
