@@ -76,30 +76,39 @@ components:
                type: integer
                format: int64
                description: "ユーザーid"
-            status:
+            constipation_status:
+                $ref: "#/components/schemas/ConstipationStatusForm"
+
+        required:
+            - user_id
+            - constipation_status
+     ConstipationStatusForm:
+        description: "お通じのステータス情報"
+        type: object
+        properties:
+            status_id:
                type: integer
                format: int64
                description: "状態id"
-            color:
+            color_id:
                type: integer
                format: int64
                description: "色id"
-            quantity:
+            quantity_id:
                type: integer
                format: int64
                description: "量id"
-            smell:
+            smell_id:
                type: integer
                format: int64
                description: "においid"
-            refresh_feel:
+            refresh_feel_id:
                type: integer
                format: int64
                description: "スッキリ感id"
         required:
-            - user_id
-            - status
-            - color
-            - quantity
-            - smell
-            - refresh_feel
+            - status_id
+            - color_id
+            - quantity_id
+            - smell_id
+            - refresh_feel_id
