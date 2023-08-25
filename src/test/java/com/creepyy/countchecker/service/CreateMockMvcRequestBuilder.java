@@ -15,6 +15,7 @@ public class CreateMockMvcRequestBuilder {
             throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(object);
-        return MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON).content(json);
+        return MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON).content(json)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
     }
 }

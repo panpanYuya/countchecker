@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,10 @@ import com.creepyy.countchecker.model.testdata.ConstipationStatus;
 import com.creepyy.countchecker.service.CreateMockMvcRequestBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(classes = { ConstipationController.class })
+// ↓この下記かただとMockito.performで415が返ってくる
+// @SpringBootTest(classes = { ConstipationController.class })
 // ↓このアノテーションにより、テスト実行時にリクエストを発行するためのモックオブジェクト「MockMvc」
+@WebMvcTest(ConstipationController.class)
 @AutoConfigureMockMvc
 public class ConstipationControllerTest {
 
@@ -62,26 +65,28 @@ public class ConstipationControllerTest {
                 testStatusData.put("color_id", Integer.valueOf(colorId).toString());
                 testStatusData.put("quantity_id", Integer.valueOf(quantityId).toString());
                 testStatusData.put("smell_id", Integer.valueOf(smellId).toString());
-                testStatusData.put("refresh_feel_id", Integer.valueOf(refreshFeelId).toString());
+                testStatusData.put("refresh_feel_id",
+                                Integer.valueOf(refreshFeelId).toString());
                 testData.put("constipation_status_form", testStatusData);
 
-                // 400エラー担ってしまう問題を解消
+                // 正常系のテストを実行
                 mockMvc.perform(CreateMockMvcRequestBuilder.post("/constipation/post", testData))
                                 .andExpect(MockMvcResultMatchers.status().isOk())
                                 .andExpect(MockMvcResultMatchers.jsonPath("user_id")
                                                 .value(testConstipation.getUserId()))
                                 .andExpect(MockMvcResultMatchers.jsonPath("constipation_id")
                                                 .value(testConstipation.getConstipationId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("ConstipationStatusForm.status_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("constipation_status_form.status_id")
                                                 .value(testConstipation.getConstipationStatusForm().getStatusId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("ConstipationStatusForm.color_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("constipation_status_form.color_id")
                                                 .value(testConstipation.getConstipationStatusForm().getColorId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("ConstipationStatusForm.quantity_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("constipation_status_form.quantity_id")
                                                 .value(testConstipation.getConstipationStatusForm().getQuantityId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("ConstipationStatusForm.smell_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("constipation_status_form.smell_id")
                                                 .value(testConstipation.getConstipationStatusForm().getSmellId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("ConstipationStatusForm.refresh_feel_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("constipation_status_form.refresh_feel_id")
                                                 .value(testConstipation.getConstipationStatusForm()
                                                                 .getRefreshFeelId()));
         }
+
 }
