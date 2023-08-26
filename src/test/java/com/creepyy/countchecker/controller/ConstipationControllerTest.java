@@ -7,21 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.creepyy.countchecker.controller.ConstipationController;
 import com.creepyy.countchecker.model.form.ConstipationForm;
 import com.creepyy.countchecker.model.form.ConstipationStatusForm;
-import com.creepyy.countchecker.model.testdata.Constipation;
+import com.creepyy.countchecker.model.testdata.ConstipationFixture;
 import com.creepyy.countchecker.model.testdata.ConstipationStatus;
 import com.creepyy.countchecker.service.CreateMockMvcRequestBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 // ↓この下記かただとMockito.performで415が返ってくる
 // @SpringBootTest(classes = { ConstipationController.class })
@@ -55,7 +49,7 @@ public class ConstipationControllerTest {
                 ConstipationStatusForm testConStatus = ConstipationStatus.makeForm(statusId, colorId, quantityId,
                                 smellId,
                                 refreshFeelId);
-                ConstipationForm testConstipation = Constipation.makeForm(constipationId, userId, testConStatus);
+                ConstipationForm testConstipation = ConstipationFixture.makeForm(constipationId, userId, testConStatus);
 
                 Map<String, Object> testData = new HashMap<String, Object>();
                 Map<String, String> testStatusData = new HashMap<String, String>();

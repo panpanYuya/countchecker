@@ -37,6 +37,9 @@ public class ConstipationController {
                                                 .toString());
                 requestData.put("constipation_status_form", requestStatusData);
 
+                // TODO 取得して来たデータをサービス層に登録する処理
+                // TODO 一番最新のデータをuser_idから取得できるようにする
+
                 return new ResponseEntity<Map<String, Object>>(requestData, HttpStatus.OK);
         }
 }

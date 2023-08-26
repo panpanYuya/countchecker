@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS constipation (
     smell_id int NOT NULL ,
     quantity_id int NOT NULL ,
     refresh_feel_id int NOT NULL ,
+    memo VARCHAR,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
     PRIMARY KEY(id)
