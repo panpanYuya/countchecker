@@ -8,17 +8,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ConstipationForm {
 
-    private int constipation_id;
     private int user_id;
     private ConstipationStatusForm constipation_status_form;
-
-    public int getConstipationId() {
-        return this.constipation_id;
-    }
-
-    public void setConstipationId(int constipationId) {
-        this.constipation_id = constipationId;
-    }
+    private String memo;
 
     public int getUserId() {
         return this.user_id;
@@ -34,6 +26,14 @@ public class ConstipationForm {
 
     public void setConstipationStatusForm(ConstipationStatusForm constipationStatusForm) {
         this.constipation_status_form = constipationStatusForm;
+    }
+
+    public String getMemo() {
+        return this.memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 
 }

@@ -1,45 +1,57 @@
 package com.creepyy.countchecker.model.entity;
 
-import java.io.Serializable;
-import java.security.Timestamp;
+import java.util.Date;
 
-import jakarta.annotation.Generated;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class Constipation implements Serializable {
+@Data
+@EnableJpaAuditing
+@Entity(name = "constipation")
+public class Constipation {
 
-  @Id
-  private Integer id;
+    @PrePersist
+    public void onPrePersist() {
+        setCreatedAt(new Date());
+        setUpdatedAt(new Date());
+    }
 
-  private final Integer userId;
+    @PreUpdate
+    public void onPreUpdate() {
+        setUpdatedAt(new Date());
+    }
 
-  private final Integer statusId;
-  // private Integer status_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  private final Integer colorId;
-  // private Integer color_id;
+    private Integer userId;
 
-  private final Integer smellId;
+    private Integer statusId;
 
-  private final Integer quantityId;
+    private Integer colorId;
 
-  private final Integer refreshFeelId;
+    private Integer smellId;
 
-  private final String memo;
+    private Integer quantityId;
 
-  private Timestamp createdAt;
+    private Integer refreshFeelId;
 
-  private Timestamp updatedAt;
+    private String memo;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 
 }

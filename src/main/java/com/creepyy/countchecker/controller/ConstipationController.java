@@ -1,45 +1,36 @@
 package com.creepyy.countchecker.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.creepyy.countchecker.model.entity.Constipation;
 import com.creepyy.countchecker.model.form.ConstipationForm;
+import com.creepyy.countchecker.service.ConstipationService;
 
 @RestController
 @RequestMapping("constipation")
 public class ConstipationController {
 
-        // @RequestMapping(value = "/post", consumes = { "application/json" })
+        @Autowired
+        ConstipationService constipationService;
+
         @RequestMapping("/post")
-        public ResponseEntity<Map<String, Object>> post(@RequestBody ConstipationForm constipationForm) {
-                Map<String, Object> requestData = new HashMap<String, Object>();
-                Map<String, String> requestStatusData = new HashMap<String, String>();
-                requestData.put("user_id", Integer.valueOf(constipationForm.getUserId()).toString());
-                requestData.put("constipation_id", Integer.valueOf(constipationForm.getConstipationId()).toString());
-                requestStatusData.put("status_id",
-                                Integer.valueOf(constipationForm.getConstipationStatusForm().getStatusId()).toString());
-                requestStatusData.put("color_id",
-                                Integer.valueOf(constipationForm.getConstipationStatusForm().getColorId()).toString());
-                requestStatusData.put("quantity_id",
-                                Integer.valueOf(constipationForm.getConstipationStatusForm().getQuantityId())
-                                                .toString());
-                requestStatusData.put("smell_id",
-                                Integer.valueOf(constipationForm.getConstipationStatusForm().getSmellId()).toString());
-                requestStatusData.put("refresh_feel_id",
-                                Integer.valueOf(constipationForm.getConstipationStatusForm().getRefreshFeelId())
-                                                .toString());
-                requestData.put("constipation_status_form", requestStatusData);
+        public ResponseEntity<Constipation> post(@RequestBody ConstipationForm constipationForm) {
+                Constipation constipation = new Constipation();
+                constipation.setUserId(constipationForm.getUserId());
+                constipation.setStatusId(constipationForm.getConstipationStatusForm().getStatusId());
+                constipation.setColorId(constipationForm.getConstipationStatusForm().getColorId());
+                constipation.setSmellId(constipationForm.getConstipationStatusForm().getSmellId());
+                constipation.setQuantityId(constipationForm.getConstipationStatusForm().getQuantityId());
+                constipation.setRefreshFeelId(constipationForm.getConstipationStatusForm().getRefreshFeelId());
+                constipation.setMemo(constipationForm.getMemo());
 
-                // TODO 取得して来たデータをサービス層に登録する処理
-                // TODO 一番最新のデータをuser_idから取得できるようにする
-
-                return new ResponseEntity<Map<String, Object>>(requestData, HttpStatus.OK);
+                Constipation registData = constipationService.createConstipation(constipation);
+                return new ResponseEntity<Constipation>(registData, HttpStatus.OK);
         }
+
 }

@@ -13,48 +13,48 @@ CREATE TABLE IF NOT EXISTS constipation (
     smell_id int NOT NULL ,
     quantity_id int NOT NULL ,
     refresh_feel_id int NOT NULL ,
-    memo VARCHAR,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    memo VARCHAR(255),
+    created_at DATETIME,
+    updated_at DATETIME,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS m_status (
     id MEDIUMINT NOT NULL AUTO_INCREMENT,
     status  VARCHAR(100) NOT NULL ,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME,
+    updated_at DATETIME,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS m_color (
     id MEDIUMINT NOT NULL AUTO_INCREMENT,
     color VARCHAR(100) NOT NULL ,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME,
+    updated_at DATETIME,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS m_smell (
     id MEDIUMINT NOT NULL AUTO_INCREMENT,
     smell VARCHAR(100) NOT NULL ,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME,
+    updated_at DATETIME,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS m_quantity (
     id MEDIUMINT NOT NULL AUTO_INCREMENT,
     quantity VARCHAR(100) NOT NULL ,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME,
+    updated_at DATETIME,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS m_refresh_feel (
     id MEDIUMINT NOT NULL AUTO_INCREMENT,
     refresh_feel VARCHAR(100) NOT NULL ,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME,
+    updated_at DATETIME,
     PRIMARY KEY(id)
 );
