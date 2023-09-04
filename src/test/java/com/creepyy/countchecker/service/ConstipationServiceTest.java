@@ -16,14 +16,12 @@ import com.creepyy.countchecker.repository.ConstipationRepository;
 
 @WebMvcTest(ConstipationService.class)
 public class ConstipationServiceTest {
-    // TODO DBに値を登録できるサービス層のテストを追加
     @Autowired
     MockMvc mockMvc;
 
     @MockBean
     ConstipationRepository constipationRepository;
 
-    // @InjectMocks
     @Autowired
     private ConstipationService constipationService;
 
@@ -35,11 +33,6 @@ public class ConstipationServiceTest {
     private int quantityId = 99999999;
     private int refreshFeelId = 99999999;
     private String memo = "今日の記録をします。";
-
-    // @BeforeEach
-    // void setUp() {
-    // this.constipationService = new ConstipationService();
-    // }
 
     @Test
     @DisplayName("createConstipation_正常系")
