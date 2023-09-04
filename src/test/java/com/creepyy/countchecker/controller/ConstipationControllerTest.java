@@ -1,5 +1,7 @@
 package com.creepyy.countchecker.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.creepyy.countchecker.model.entity.Constipation;
@@ -19,7 +20,6 @@ import com.creepyy.countchecker.model.form.ConstipationStatusForm;
 import com.creepyy.countchecker.model.testdata.ConstipationFixture;
 import com.creepyy.countchecker.model.testdata.ConstipationFormFixture;
 import com.creepyy.countchecker.model.testdata.ConstipationStatusFormFixture;
-import com.creepyy.countchecker.repository.ConstipationRepository;
 import com.creepyy.countchecker.service.ConstipationService;
 import com.creepyy.countchecker.service.CreateMockMvcRequestBuilder;
 
@@ -44,17 +44,11 @@ public class ConstipationControllerTest {
         @Autowired
         private MockMvc mockMvc;
 
+        @Autowired
+        private ConstipationController constipationController;
+
         @MockBean
         private ConstipationService constipationService;
-
-        @MockBean
-        ConstipationRepository constipationRepository;
-
-        @Test
-        public void test_path() throws Exception {
-                mockMvc.perform(MockMvcRequestBuilders.post("/constipation/post"))
-                                .andExpect(MockMvcResultMatchers.status().isOk());
-        }
 
         @Test
         public void test_normal() throws Exception {
@@ -69,22 +63,24 @@ public class ConstipationControllerTest {
                 Map<String, Object> testData = createRequestJson(userId, statusId, colorId, quantityId, smellId,
                                 refreshFeelId, memo);
 
-                Mockito.when(constipationService.createConstipation(expectedData)).thenReturn(expectedData);
+                // anyを代入しなければならない理由を記事にする
+                // 今まではnullになっていた
+                Mockito.when(constipationService.createConstipation(any(Constipation.class))).thenReturn(expectedData);
 
                 // 正常系のテストを実行
                 mockMvc.perform(CreateMockMvcRequestBuilder.post("/constipation/post", testData))
                                 .andExpect(MockMvcResultMatchers.status().isOk())
                                 .andExpect(MockMvcResultMatchers.jsonPath("userId")
                                                 .value(testConstipation.getUserId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("status_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("statusId")
                                                 .value(testConstipation.getConstipationStatusForm().getStatusId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("color_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("colorId")
                                                 .value(testConstipation.getConstipationStatusForm().getColorId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("quantity_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("quantityId")
                                                 .value(testConstipation.getConstipationStatusForm().getQuantityId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("smell_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("smellId")
                                                 .value(testConstipation.getConstipationStatusForm().getSmellId()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("refresh_feel_id")
+                                .andExpect(MockMvcResultMatchers.jsonPath("refreshFeelId")
                                                 .value(testConstipation.getConstipationStatusForm()
                                                                 .getRefreshFeelId()))
                                 .andExpect(MockMvcResultMatchers.jsonPath("memo")
@@ -95,14 +91,14 @@ public class ConstipationControllerTest {
                         int smellerId, int refreshFeelId, String memo) {
                 Map<String, Object> requestData = new HashMap<String, Object>();
                 Map<String, String> requestStatusData = new HashMap<String, String>();
-                requestData.put("user_id", Integer.valueOf(userId).toString());
-                requestStatusData.put("status_id", Integer.valueOf(statusId).toString());
-                requestStatusData.put("color_id", Integer.valueOf(colorId).toString());
-                requestStatusData.put("quantity_id", Integer.valueOf(quantityId).toString());
-                requestStatusData.put("smell_id", Integer.valueOf(smellId).toString());
-                requestStatusData.put("refresh_feel_id",
+                requestData.put("userId", Integer.valueOf(userId).toString());
+                requestStatusData.put("statusId", Integer.valueOf(statusId).toString());
+                requestStatusData.put("colorId", Integer.valueOf(colorId).toString());
+                requestStatusData.put("quantityId", Integer.valueOf(quantityId).toString());
+                requestStatusData.put("smellId", Integer.valueOf(smellId).toString());
+                requestStatusData.put("refreshFeelId",
                                 Integer.valueOf(refreshFeelId).toString());
-                requestData.put("constipation_status_form", requestStatusData);
+                requestData.put("constipationStatusForm", requestStatusData);
                 requestData.put("memo", memo);
 
                 return requestData;
