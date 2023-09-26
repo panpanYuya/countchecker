@@ -29,8 +29,12 @@ public class ConstipationController {
                 constipation.setRefreshFeelId(constipationForm.getConstipationStatusForm().getRefreshFeelId());
                 constipation.setMemo(constipationForm.getMemo());
 
-                Constipation registData = constipationService.createConstipation(constipation);
-                return new ResponseEntity<Constipation>(registData, HttpStatus.OK);
+                try {
+                        Constipation registData = constipationService.createConstipation(constipation);
+                        return new ResponseEntity<Constipation>(registData, HttpStatus.OK);
+                } catch (Exception e) {
+                        return new ResponseEntity<Constipation>(new Constipation(), HttpStatus.BAD_REQUEST);
+                }
         }
 
 }

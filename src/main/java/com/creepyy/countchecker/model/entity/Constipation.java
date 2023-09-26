@@ -1,5 +1,6 @@
 package com.creepyy.countchecker.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Data
 @EnableJpaAuditing
 @Entity(name = "constipation")
-public class Constipation {
+public class Constipation implements Serializable {
 
     @PrePersist
     public void onPrePersist() {

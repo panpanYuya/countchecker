@@ -1,8 +1,10 @@
 package com.creepyy.countchecker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import com.creepyy.countchecker.Exception.ConstipationException;
 import com.creepyy.countchecker.model.entity.Constipation;
 import com.creepyy.countchecker.repository.ConstipationRepository;
 
@@ -13,23 +15,24 @@ public class ConstipationService {
     ConstipationRepository constipationRepository;
 
     /**
-     * お通じをDBに登録する機能
      * 
      * @param constipation
      * @return Constipation
+     * @throws ConstipationException
      */
-    public Constipation createConstipation(Constipation constipation) {
-        Constipation saveData = new Constipation();
-
-        saveData.setUserId(constipation.getUserId());
-        saveData.setStatusId(constipation.getStatusId());
-        saveData.setColorId(constipation.getColorId());
-        saveData.setSmellId(constipation.getSmellId());
-        saveData.setQuantityId(constipation.getQuantityId());
-        saveData.setRefreshFeelId(constipation.getRefreshFeelId());
-        saveData.setMemo(constipation.getMemo());
-
-        return constipationRepository.save(saveData);
+    // public Constipation createConstipation(Constipation constipation) throws
+    // ConstipationException {
+    public Constipation createConstipation(Constipation constipation) throws ConstipationException {
+        try {
+            System.out.println("-------------pppppppppp---------------");
+            return constipationRepository.save(constipation);
+        } catch (IllegalArgumentException exception) {
+            // System.out.println("------------------ttttttttttttttt----------------");
+            throw new ConstipationException(500, "Can't connect DB", "サーバに問題が発生しました");
+            // throw new IllegalArgumentException();
+        } catch (OptimisticLockingFailureException exception) {
+            throw new ConstipationException(500, "Can't connect DB", "サーバに問題が発生しました");
+        }
     }
 
 }

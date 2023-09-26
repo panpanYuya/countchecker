@@ -1,7 +1,8 @@
 package com.creepyy.countchecker.service;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.creepyy.countchecker.Exception.ConstipationException;
 import com.creepyy.countchecker.model.entity.Constipation;
 import com.creepyy.countchecker.model.testdata.ConstipationFixture;
 import com.creepyy.countchecker.repository.ConstipationRepository;
@@ -36,7 +38,7 @@ public class ConstipationServiceTest {
 
     @Test
     @DisplayName("createConstipation_正常系")
-    public void create_constipation_test() {
+    public void create_constipation_test() throws ConstipationException {
         Constipation testData = createConstipation(userId, statusId, colorId, smellId, quantityId, refreshFeelId, memo);
         Constipation expectedData = ConstipationFixture.fixture(id, userId, statusId, colorId, smellId, quantityId,
                 refreshFeelId, memo);
@@ -52,6 +54,23 @@ public class ConstipationServiceTest {
                 () -> assertEquals(testData.getQuantityId(), result.getQuantityId()),
                 () -> assertEquals(testData.getRefreshFeelId(), result.getRefreshFeelId()),
                 () -> assertEquals(testData.getMemo(), result.getMemo()));
+
+    }
+
+    @Test
+    public void create_throw_ConstipationException() throws IllegalArgumentException, ConstipationException {
+        Constipation testData = createConstipation(userId, statusId, colorId, smellId, quantityId, refreshFeelId, memo);
+        // mockito.whenでservice層で呼び出す処理を実装
+        Mockito.when(constipationRepository.save(any(Constipation.class)))
+                .thenThrow(new IllegalArgumentException());
+        // trycatchでエラーを取得する
+        try {
+            constipationService.createConstipation(testData);
+        } catch (ConstipationException exception) {
+            assertEquals(500, exception.getStatusCode());
+            assertEquals("Can't connect DB", exception.getErrorResponse());
+            assertEquals("サーバに問題が発生しました", exception.getErrorMessage());
+        }
 
     }
 
