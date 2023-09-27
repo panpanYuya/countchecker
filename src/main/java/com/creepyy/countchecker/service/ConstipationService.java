@@ -20,17 +20,10 @@ public class ConstipationService {
      * @return Constipation
      * @throws ConstipationException
      */
-    // public Constipation createConstipation(Constipation constipation) throws
-    // ConstipationException {
     public Constipation createConstipation(Constipation constipation) throws ConstipationException {
         try {
-            System.out.println("-------------pppppppppp---------------");
             return constipationRepository.save(constipation);
         } catch (IllegalArgumentException exception) {
-            // System.out.println("------------------ttttttttttttttt----------------");
-            throw new ConstipationException(500, "Can't connect DB", "サーバに問題が発生しました");
-            // throw new IllegalArgumentException();
-        } catch (OptimisticLockingFailureException exception) {
             throw new ConstipationException(500, "Can't connect DB", "サーバに問題が発生しました");
         }
     }
