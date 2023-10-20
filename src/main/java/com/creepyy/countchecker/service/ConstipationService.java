@@ -1,7 +1,6 @@
 package com.creepyy.countchecker.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.creepyy.countchecker.Exception.ConstipationException;
