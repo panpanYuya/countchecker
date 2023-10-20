@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.creepyy.countchecker.Exception.BadRequestException;
+import com.creepyy.countchecker.Exception.ConstipationException;
 import com.creepyy.countchecker.model.entity.Constipation;
 import com.creepyy.countchecker.model.form.ConstipationForm;
 import com.creepyy.countchecker.service.ConstipationService;
@@ -15,26 +17,27 @@ import com.creepyy.countchecker.service.ConstipationService;
 @RequestMapping("constipation")
 public class ConstipationController {
 
-        @Autowired
-        ConstipationService constipationService;
+    @Autowired
+    ConstipationService constipationService;
 
-        @RequestMapping("/post")
-        public ResponseEntity<Constipation> post(@RequestBody ConstipationForm constipationForm) {
-                Constipation constipation = new Constipation();
-                constipation.setUserId(constipationForm.getUserId());
-                constipation.setStatusId(constipationForm.getConstipationStatusForm().getStatusId());
-                constipation.setColorId(constipationForm.getConstipationStatusForm().getColorId());
-                constipation.setSmellId(constipationForm.getConstipationStatusForm().getSmellId());
-                constipation.setQuantityId(constipationForm.getConstipationStatusForm().getQuantityId());
-                constipation.setRefreshFeelId(constipationForm.getConstipationStatusForm().getRefreshFeelId());
-                constipation.setMemo(constipationForm.getMemo());
+    @RequestMapping("/post")
+    public ResponseEntity<Constipation> post(@RequestBody ConstipationForm constipationForm)
+            throws ConstipationException, BadRequestException {
+        Constipation constipation = new Constipation();
+        constipation.setUserId(constipationForm.getUserId());
+        constipation.setStatusId(constipationForm.getConstipationStatusForm().getStatusId());
+        constipation.setColorId(constipationForm.getConstipationStatusForm().getColorId());
+        constipation.setSmellId(constipationForm.getConstipationStatusForm().getSmellId());
+        constipation.setQuantityId(constipationForm.getConstipationStatusForm().getQuantityId());
+        constipation.setRefreshFeelId(constipationForm.getConstipationStatusForm().getRefreshFeelId());
+        constipation.setMemo(constipationForm.getMemo());
 
-                try {
-                        Constipation registData = constipationService.createConstipation(constipation);
-                        return new ResponseEntity<Constipation>(registData, HttpStatus.OK);
-                } catch (Exception e) {
-                        return new ResponseEntity<Constipation>(new Constipation(), HttpStatus.BAD_REQUEST);
-                }
+        try {
+            Constipation registData = constipationService.createConstipation(constipation);
+            return new ResponseEntity<Constipation>(registData, HttpStatus.OK);
+        } catch (ConstipationException e) {
+            throw new BadRequestException(e.getErrorMessage());
         }
+    }
 
 }

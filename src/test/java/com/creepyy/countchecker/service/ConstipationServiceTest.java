@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.creepyy.countchecker.Exception.ConstipationException;
+import com.creepyy.countchecker.common.constants.ErrorConst;
 import com.creepyy.countchecker.model.entity.Constipation;
 import com.creepyy.countchecker.model.testdata.ConstipationFixture;
 import com.creepyy.countchecker.repository.ConstipationRepository;
@@ -58,7 +59,8 @@ public class ConstipationServiceTest {
     }
 
     @Test
-    public void create_throw_ConstipationException() throws IllegalArgumentException, ConstipationException {
+    @DisplayName("createConstipation_DB接続エラー")
+    public void create_createConstipation_throw_Exception() throws IllegalArgumentException, ConstipationException {
         Constipation testData = createConstipation(userId, statusId, colorId, smellId, quantityId, refreshFeelId, memo);
         // mockito.whenでservice層で呼び出す処理を実装
         Mockito.when(constipationRepository.save(any(Constipation.class)))
@@ -67,9 +69,8 @@ public class ConstipationServiceTest {
         try {
             constipationService.createConstipation(testData);
         } catch (ConstipationException exception) {
-            assertEquals(500, exception.getStatusCode());
-            assertEquals("Can't connect DB", exception.getErrorResponse());
-            assertEquals("サーバに問題が発生しました", exception.getErrorMessage());
+            assertEquals(ErrorConst.INTERNAL_SERVER_ERROR_STATUS, exception.getStatusCode());
+            assertEquals(ErrorConst.CONNECTION_DB_ERROR_MESSAGE, exception.getErrorMessage());
         }
 
     }

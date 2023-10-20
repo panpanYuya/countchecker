@@ -9,10 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ConstipationException extends Exception {
 
-  private int statusCode;
+    private int statusCode;
 
-  private String errorResponse;
-
-  private String errorMessage;
+    private String errorMessage;
 
 }
