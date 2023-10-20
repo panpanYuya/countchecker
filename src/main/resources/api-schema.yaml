@@ -23,15 +23,33 @@ paths:
         tags:
             - constipation
         summary: お通じの記録
-        description: お通じ記録登録を行う
+        description: お通じの記録を行う
         operationId: post
         responses:
             200: 
-                description: "お通じ記録登録完了"
+                description: "お通じの記録完了"
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Constipation'
+            500: 
+                description: "サーバ内で問題発生"
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ErrorResponse'
     /constipation/edit/{constipationId}:
      get:
         tags:
             - constipation
+        parameters:
+            - name: constipationId
+              in: path
+              required: true
+              description: "詳細を取得するお通じのID"
+              schema:
+                    type: integer
+                    format: int64
         responses:
             200:
              description: 編集するお通じの記録を取得するAPI
@@ -39,6 +57,109 @@ paths:
      put:
         tags:
             - constipation
+        parameters:
+            - name: constipationId
+              in: path
+              required: true
+              description: "詳細を取得するお通じのID"
+              schema:
+                    type: integer
+                    format: int64
         responses:
             200:
              description: 編集されたお通じの記録を更新するAPI
+
+components:
+  schemas:
+        Constipation:
+            description: "お通じ情報"
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                    description: "お通じのid"
+                user_id:
+                    type: integer
+                    format: int64
+                    description: "ユーザーid"
+                status_id:
+                    type: integer
+                    format: int64
+                    description: "状態id"
+                color_id:
+                    type: integer
+                    format: int64
+                    description: "色id"
+                quantity_id:
+                    type: integer
+                    format: int64
+                    description: "量id"
+                smell_id:
+                    type: integer
+                    format: int64
+                    description: "においid"
+                refresh_feel_id:
+                    type: integer
+                    format: int64
+                    description: "スッキリ感id"
+                memo:
+                    type: string
+                    description: "お通じのメモ"
+        ConstipationForm:
+            type: object
+            properties:
+                constipation_id:
+                    type: integer
+                    format: int64
+                    description: "お通じid"
+                user_id:
+                    type: integer
+                    format: int64
+                    description: "ユーザーid"
+                constipation_status:
+                    $ref: "#/components/schemas/ConstipationStatusForm"
+                memo:
+                    type: string
+                    description: "お通じのメモ"
+
+            required:
+                - user_id
+                - constipation_status
+        ConstipationStatusForm:
+            description: "お通じのステータス情報"
+            type: object
+            properties:
+                status_id:
+                    type: integer
+                    format: int64
+                    description: "状態id"
+                color_id:
+                    type: integer
+                    format: int64
+                    description: "色id"
+                quantity_id:
+                    type: integer
+                    format: int64
+                    description: "量id"
+                smell_id:
+                    type: integer
+                    format: int64
+                    description: "においid"
+                refresh_feel_id:
+                    type: integer
+                    format: int64
+                    description: "スッキリ感id"
+            required:
+                - status_id
+                - color_id
+                - quantity_id
+                - smell_id
+                - refresh_feel_id
+        ErrorResponse:
+            description: "エラーレスポンス"
+            type: object
+            properties:
+                message:
+                    type: string
+                    description: "エラーメッセージ"
