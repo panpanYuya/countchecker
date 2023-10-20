@@ -32,6 +32,12 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Constipation'
+            500: 
+                description: "サーバ内で問題発生"
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ErrorResponse'
     /constipation/edit/{constipationId}:
      get:
         tags:
@@ -150,3 +156,10 @@ components:
                 - quantity_id
                 - smell_id
                 - refresh_feel_id
+        ErrorResponse:
+            description: "エラーレスポンス"
+            type: object
+            properties:
+                message:
+                    type: string
+                    description: "エラーメッセージ"
