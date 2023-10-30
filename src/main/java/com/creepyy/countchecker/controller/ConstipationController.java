@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.creepyy.countchecker.Exception.BadRequestException;
@@ -38,6 +39,11 @@ public class ConstipationController {
         } catch (ConstipationException e) {
             throw new BadRequestException(e.getErrorMessage());
         }
+    }
+
+    @RequestMapping("/edit")
+    public ResponseEntity<String> edit(@RequestParam int constipationId) {
+        return new ResponseEntity<String>("ok", HttpStatus.OK);
     }
 
 }
