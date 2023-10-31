@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class ConstipationControllerTest {
     private ConstipationService constipationService;
 
     @Test
+    @DisplayName("お通じ記録登録_正常系")
     public void test_post_normal() throws Exception {
         // テストデータを作成
         ConstipationStatusForm testConStatus = ConstipationStatusFormFixture.makeForm(statusId, colorId,
@@ -90,6 +92,7 @@ public class ConstipationControllerTest {
     }
 
     @Test
+    @DisplayName("お通じ記録登録_throw_ConstipationException")
     public void test_post_internalServerError() throws Exception {
         // テストデータを作成
         ConstipationStatusForm testConStatus = ConstipationStatusFormFixture.makeForm(statusId, colorId,

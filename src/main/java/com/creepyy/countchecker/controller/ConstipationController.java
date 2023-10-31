@@ -14,6 +14,9 @@ import com.creepyy.countchecker.model.entity.Constipation;
 import com.creepyy.countchecker.model.form.ConstipationForm;
 import com.creepyy.countchecker.service.ConstipationService;
 
+/**
+ * お通じに関連している処理を記載
+ */
 @RestController
 @RequestMapping("constipation")
 public class ConstipationController {
@@ -21,6 +24,14 @@ public class ConstipationController {
     @Autowired
     ConstipationService constipationService;
 
+    /**
+     * お通じ登録
+     * 
+     * @param constipationForm
+     * @return ResponseEntity<Constipation>
+     * @throws ConstipationException
+     * @throws BadRequestException
+     */
     @RequestMapping("/post")
     public ResponseEntity<Constipation> post(@RequestBody ConstipationForm constipationForm)
             throws ConstipationException, BadRequestException {
