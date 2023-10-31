@@ -18,4 +18,8 @@ public class CreateMockMvcRequestBuilder {
         return MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON).content(json)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
     }
+
+    public static MockHttpServletRequestBuilder get(String url) throws JsonProcessingException {
+        return MockMvcRequestBuilders.get(url);
+    }
 }

@@ -116,6 +116,14 @@ public class ConstipationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(ErrorConst.INTERNAL_SERVER_ERROR_MESSAGE));
     }
 
+    @Test
+    @DisplayName("お通じ編集_正常系")
+    public void test_edit_normal() throws Exception {
+        mockMvc.perform(CreateMockMvcRequestBuilder.get("/constipation/edit?constipationId=1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("ok"));
+    }
+
     private Map<String, Object> createRequestJson(int userId, int statusId, int colorId, int quantityId,
             int smellerId, int refreshFeelId, String memo) {
         Map<String, Object> requestData = new HashMap<String, Object>();
